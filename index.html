@@ -918,7 +918,7 @@
     });
 
     // =========================================================================
-    // CHAMADA REUTILIZÁVEL AO MODELO GRATUITO gemini-2.5-flash
+    // CHAMADA REUTILIZÁVEL AO MODELO GRATUITO gemini-3.8-flash
     // =========================================================================
     async function callGeminiFlashJSON(prompt) {
       const apiKey = $('geminiApiKey').value.trim() || appState.geminiApiKey;
@@ -927,7 +927,7 @@
       }
 
       const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${encodeURIComponent(apiKey)}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -952,7 +952,7 @@
     }
 
     // =========================================================================
-    // ETAPA 2: GERADOR DE ROTEIRO E CENAS (gemini-2.5-flash)
+    // ETAPA 2: GERADOR DE ROTEIRO E CENAS (gemini-3.8-flash)
     // =========================================================================
     document.querySelectorAll('.chip').forEach(chip => {
       chip.addEventListener('click', () => {
@@ -972,10 +972,10 @@
       }
 
       $('generateScriptBtn').disabled = true;
-      $('generateScriptBtn').textContent = '⏳ Gerando roteiro com gemini-2.5-flash...';
+      $('generateScriptBtn').textContent = '⏳ Gerando roteiro com gemini-3.8-flash...';
       statusEl.style.display = 'block';
       statusEl.className = 'alert info';
-      statusEl.textContent = 'Consultando o modelo gratuito gemini-2.5-flash...';
+      statusEl.textContent = 'Consultando o modelo gratuito gemini-3.8-flash...';
 
       const prompt = `Você é um roteirista viral especialista em YouTube Shorts de curiosidades e mistérios em Português do Brasil.
 Tema do vídeo: "${topic}"
@@ -1923,4 +1923,4 @@ Retorne EXCLUSIVAMENTE um JSON válido com estas chaves:
     });
   </script>
 </body>
-  </html>
+</html>
