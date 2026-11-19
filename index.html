@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multiverso AutoShorts — Estúdio 100% Gratuito</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    :root {
+      --bg: #090b12;
+      --surface: #121624;
+      --surface-2: #1a2035;
+      --border: #2a3352;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --primary: #7c3aed;
+      --primary-hover: #6d28d9;
+      --accent: #06b6d4;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: radial-gradient(circle at top right, #1e1b4b 0%, var(--bg) 45%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    .app-container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
+    }
+
+    .brand h1 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .brand p {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .status-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--muted);
+    }
+
+    .dot.online { background: var(--success); box-shadow: 0 0 8px var(--success); }
+    .dot.warn { background: var(--warning); }
+
+    /* Tabs */
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 780px) {
+      .tabs { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .tab-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 14px 12px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .tab-btn:hover {
+      border-color: var(--primary);
+      color: var(--text);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.22), rgba(6, 182, 212, 0.12));
+      border-color: var(--primary);
+      color: var(--text);
+      box-shadow: 0 4px 20px rgba(124, 58, 237, 0.18);
+    }
+
+    .tab-step {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .tab-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    /* Panels */
+    .panel {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 26px;
+      animation: fadeIn 0.22s ease;
+    }
+
+    .panel.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .panel-header {
+      margin-bottom: 20px;
+    }
+
+    .panel-header h2 {
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+    }
+
+    .panel-header p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    /* Forms */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    @media (max-width: 780px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .label-row label {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #cbd5e1;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    textarea,
+    select {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 11px 14px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .hint {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 0.76rem;
+      border-radius: 8px;
+    }
+
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), #5b21b6);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(124, 58, 237, 0.32);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, #0891b2, #0284c7);
+      color: #fff;
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #059669, #10b981);
+      color: #fff;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-outline:hover:not(:disabled) {
+      border-color: var(--accent);
+      background: rgba(6, 182, 212, 0.08);
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    /* Info Box */
+    .alert {
+      padding: 14px 16px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      margin-top: 16px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+    }
+
+    .alert.success { border-color: rgba(16, 185, 129, 0.45); background: rgba(16, 185, 129, 0.1); color: #a7f3d0; }
+    .alert.error { border-color: rgba(239, 68, 68, 0.45); background: rgba(239, 68, 68, 0.1); color: #fecaca; }
+    .alert.info { border-color: rgba(6, 182, 212, 0.45); background: rgba(6, 182, 212, 0.08); color: #bae6fd; }
+
+    /* Topic Chips */
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .chip {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: #cbd5e1;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .chip:hover {
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Scenes Grid */
+    .scenes-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    @media (max-width: 780px) {
+      .scenes-grid { grid-template-columns: 1fr; }
+    }
+
+    .scene-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .scene-card h4 {
+      color: var(--accent);
+      font-size: 0.88rem;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Studio Layout */
+    .studio-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 860px) {
+      .studio-layout { grid-template-columns: 1fr; }
+    }
+
+    .preview-box {
+      background: #040509;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 480px;
+    }
+
+    .preview-box video,
+    .preview-box canvas {
+      width: 100%;
+      max-width: 290px;
+      aspect-ratio: 9 / 16;
+      border-radius: 12px;
+      background: #000;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
+    }
+
+    .thumbs-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .thumb-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .thumb-item {
+      aspect-ratio: 9 / 16;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      display: grid;
+      place-items: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .thumb-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .log-box {
+      background: #05070e;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.78rem;
+      color: #93c5fd;
+      height: 190px;
+      overflow-y: auto;
+      margin-top: 14px;
+      white-space: pre-wrap;
+    }
+
+    .progress-wrap {
+      width: 100%;
+      height: 10px;
+      background: var(--bg);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-top: 12px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transition: width 0.25s ease;
+    }
+
+    .badge-count {
+      background: rgba(124, 58, 237, 0.2);
+      border: 1px solid rgba(124, 58, 237, 0.5);
+      color: #ddd6fe;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .publish-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+      border-radius: 12px;
+      margin-bottom: 18px;
+    }
+
+    .publish-context {
+      font-size: 0.84rem;
+      color: #cbd5e1;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <div class="brand-icon">🚀</div>
+        <div>
+          <h1>Multiverso AutoShorts</h1>
+          <p>Fábrica gratuita de YouTube Shorts no navegador (Gemini Flash + Canvas 9:16)</p>
+        </div>
+      </div>
+
+      <div class="status-pills">
+        <span class="badge-count" id="dailyQuotaBadge">Shorts hoje: 0 / 3</span>
+        <div class="pill">
+          <span class="dot" id="geminiDot"></span>
+          <span id="geminiStatusText">Gemini: Pendente</span>
+        </div>
+        <div class="pill">
+          <span class="dot" id="ytDot"></span>
+          <span id="ytStatusText">YouTube: Desconectado</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="tab1">
+        <span class="tab-step">Etapa 1</span>
+        <span class="tab-title">1. Conexão e Chaves</span>
+      </button>
+      <button class="tab-btn" data-tab="tab2">
+        <span class="tab-step">Etapa 2</span>
+        <span class="tab-title">2. Roteiro e Cenas</span>
+      </button>
+      <button class="tab-btn" data-tab="tab3">
+        <span class="tab-step">Etapa 3</span>
+        <span class="tab-title">3. Estúdio de Vídeo</span>
+      </button>
+      <button class="tab-btn" data-tab="tab4">
+        <span class="tab-step">Etapa 4</span>
+        <span class="tab-title">4. Publicar no YouTube</span>
+      </button>
+    </nav>
+
+    <!-- TAB 1: CONEXÃO E CHAVES -->
+    <section id="tab1" class="panel active">
+      <div class="panel-header">
+        <h2>🔑 Conexão e Chaves (100% Gratuito)</h2>
+        <p>Suas chaves ficam salvas apenas localmente no navegador (localStorage).</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="geminiApiKey">Gemini API Key (Google AI Studio)</label>
+          <input type="password" id="geminiApiKey" placeholder="Cole sua chave AIza..." />
+          <div class="hint">Usada gratuitamente com o modelo <strong>gemini-2.5-flash</strong> e TTS/Imagens gratuitas.</div>
+        </div>
+
+        <div class="field">
+          <label for="googleClientId">Google OAuth Client ID (Web Application)</label>
+          <input type="text" id="googleClientId" placeholder="123456789-xxxx.apps.googleusercontent.com" />
+          <div class="hint">Origem atual: <strong id="currentOriginHint"></strong> (adicione nas origens autorizadas do Google Cloud).</div>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" id="saveKeysBtn">💾 Salvar Chaves no Navegador</button>
+        <button class="btn btn-primary" id="connectYtBtn">📺 Conectar Canal do YouTube</button>
+      </div>
+
+      <div id="authStatusAlert" class="alert info">
+        Cole suas chaves acima, clique em <strong>Salvar Chaves</strong> e depois conecte seu canal do YouTube com o escopo <code>youtube.upload</code>.
+      </div>
+    </section>
+
+    <!-- TAB 2: GERADOR DE ROTEIRO E CENAS -->
+    <section id="tab2" class="panel">
+      <div class="panel-header">
+        <h2>✍️ Gerador de Roteiro e Cenas (gemini-2.5-flash)</h2>
+        <p>Crie até 3 Shorts envolventes por dia com roteiro de 35 a 45 segundos dividido em 4 cenas visuais.</p>
+      </div>
+
+      <div class="field">
+        <label for="topicInput">Tema do Vídeo</label>
+        <input type="text" id="topicInput" placeholder="Ex: Mistérios das Pirâmides ou O navio fantasma Mary Celeste" />
+      </div>
+
+      <div class="chips">
+        <span class="chip" data-topic="Mistérios das Pirâmides do Egito">🏛️ Mistérios das Pirâmides</span>
+        <span class="chip" data-topic="O navio fantasma Mary Celeste">🚢 Navio Mary Celeste</span>
+        <span class="chip" data-topic="O sinal espacial Wow! de 1977">🛸 Sinal Wow! de 1977</span>
+        <span class="chip" data-topic="A biblioteca perdida de Alexandria">📜 Biblioteca de Alexandria</span>
+        <span class="chip" data-topic="O misterioso mecanismo de Anticítera">⚙️ Mecanismo de Anticítera</span>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="generateScriptBtn">✨ Gerar Roteiro (Gratuito)</button>
+        <button class="btn btn-outline" id="regenTab2MetaBtn" style="display:none;">🔄 Gerar Novo Título/Descrição/Tags</button>
+        <button class="btn btn-outline" id="goToStudioBtn" style="display:none;">🎬 Ir para o Estúdio de Vídeo →</button>
+      </div>
+
+      <div id="scriptStatusAlert" class="alert info" style="display:none;"></div>
+
+      <div id="scriptResultArea" style="display:none; margin-top: 22px;">
+        <div class="grid-2">
+          <div class="field">
+            <label>Título Gerado (até 60 caracteres)</label>
+            <input type="text" id="genTitle" maxlength="60" />
+          </div>
+          <div class="field">
+            <label>Tags (separadas por vírgula)</label>
+            <input type="text" id="genTags" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Descrição com Hashtags</label>
+          <textarea id="genDescription" rows="3"></textarea>
+        </div>
+
+        <h3 style="font-size: 1rem; margin-top: 12px;">🎞️ 4 Cenas do Roteiro (35–45s)</h3>
+        <div class="scenes-grid" id="scenesContainer"></div>
+      </div>
+    </section>
+
+    <!-- TAB 3: ESTÚDIO DE VÍDEO NO NAVEGADOR -->
+    <section id="tab3" class="panel">
+      <div class="panel-header">
+        <h2>🎬 Estúdio de Vídeo no Navegador (1080×1920 — 9:16)</h2>
+        <p>Gera 4 imagens verticais, narração em português, efeito zoom Ken Burns e legendas sincronizadas via HTML5 Canvas + MediaRecorder.</p>
+      </div>
+
+      <div class="studio-layout">
+        <div>
+          <div class="btn-row" style="margin-top: 0;">
+            <button class="btn btn-primary" id="buildVideoBtn">⚡ Montar Vídeo Vertical (9:16)</button>
+            <a class="btn btn-outline" id="downloadVideoBtn" style="display:none;" download="multiverso-autoshort.webm">⬇️ Baixar Vídeo</a>
+            <button class="btn btn-success" id="goToPublishBtn" style="display:none;">🚀 Avançar para Publicar →</button>
+          </div>
+
+          <div class="progress-wrap">
+            <div class="progress-bar" id="studioProgressBar"></div>
+          </div>
+
+          <div class="thumbs-row" id="thumbsRow">
+            <div class="thumb-wrap">
+              <div class="thumb-item" id="thumbBox0">Cena 1</div>
+              <button class="btn btn-outline btn-sm regen-img-btn" data-scene-idx="0" style="display:none;">🔄 Nova Img</button>
+            </div>
+            <div class="thumb-wrap">
+              <div class="thumb-item" id="thumbBox1">Cena 2</div>
+              <button class="btn btn-outline btn-sm regen-img-btn" data-scene-idx="1" style="display:none;">🔄 Nova Img</button>
+            </div>
+            <div class="thumb-wrap">
+              <div class="thumb-item" id="thumbBox2">Cena 3</div>
+              <button class="btn btn-outline btn-sm regen-img-btn" data-scene-idx="2" style="display:none;">🔄 Nova Img</button>
+            </div>
+            <div class="thumb-wrap">
+              <div class="thumb-item" id="thumbBox3">Cena 4</div>
+              <button class="btn btn-outline btn-sm regen-img-btn" data-scene-idx="3" style="display:none;">🔄 Nova Img</button>
+            </div>
+          </div>
+
+          <div class="log-box" id="studioLogs">Aguardando roteiro da Etapa 2 para iniciar a produção...</div>
+        </div>
+
+        <div class="preview-box">
+          <canvas id="renderCanvas" width="1080" height="1920"></canvas>
+          <video id="videoPlayer" controls playsinline style="display:none;"></video>
+          <p class="hint" id="previewCaption" style="margin-top: 10px; text-align:center;">Prévia Canvas 1080×1920</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: PUBLICAR NO YOUTUBE -->
+    <section id="tab4" class="panel">
+      <div class="panel-header">
+        <h2>📤 Publicar no YouTube (Upload Resumível Oficial)</h2>
+        <p>Os campos abaixo são preenchidos automaticamente com base no roteiro e cenas anteriores — você pode editar manualmente ou gerar novas sugestões com IA.</p>
+      </div>
+
+      <div class="publish-toolbar">
+        <div class="publish-context" id="pubScriptContext">
+          📝 Roteiro atual: <strong>Nenhum roteiro gerado ainda</strong> (você ainda pode digitar ou gerar pela IA).
+        </div>
+        <div class="btn-row" style="margin-top: 0;">
+          <button class="btn btn-outline btn-sm" id="pullFromScriptBtn">📋 Puxar da Etapa 2</button>
+          <button class="btn btn-accent btn-sm" id="genAllPubMetaBtn">✨ Gerar Título, Descrição e Tags pelo Roteiro (IA)</button>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <div class="label-row">
+            <label for="pubTitle">Título do Short (máx. 100 caracteres)</label>
+            <button type="button" class="btn btn-outline btn-sm" data-gen-pub="title">🔄 Gerar Título</button>
+          </div>
+          <input type="text" id="pubTitle" maxlength="100" placeholder="Digite ou clique em Gerar Título..." />
+        </div>
+
+        <div class="field">
+          <label for="pubPrivacy">Privacidade</label>
+          <select id="pubPrivacy">
+            <option value="public">Público (Public)</option>
+            <option value="unlisted" selected>Não listado (Unlisted)</option>
+            <option value="private">Privado (Private)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="label-row">
+          <label for="pubDescription">Descrição</label>
+          <button type="button" class="btn btn-outline btn-sm" data-gen-pub="description">🔄 Gerar Descrição</button>
+        </div>
+        <textarea id="pubDescription" rows="4" placeholder="Digite ou clique em Gerar Descrição..."></textarea>
+      </div>
+
+      <div class="field">
+        <div class="label-row">
+          <label for="pubTags">Tags (separadas por vírgula)</label>
+          <button type="button" class="btn btn-outline btn-sm" data-gen-pub="tags">🔄 Gerar Tags</button>
+        </div>
+        <input type="text" id="pubTags" placeholder="shorts, historia, misterios..." />
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-success" id="publishYtBtn">🚀 Publicar Agora no YouTube</button>
+      </div>
+
+      <div class="progress-wrap" id="uploadProgressWrap" style="display:none;">
+        <div class="progress-bar" id="uploadProgressBar"></div>
+      </div>
+
+      <div id="publishStatusAlert" class="alert info" style="margin-top: 16px;">
+        Gere o vídeo na Etapa 3 e conecte seu canal na Etapa 1 para publicar.
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // =========================================================================
+    // ESTADO GLOBAL & LOCALSTORAGE
+    // =========================================================================
+    const STORAGE_KEYS = {
+      GEMINI_KEY: 'multiverso_gemini_api_key',
+      CLIENT_ID: 'multiverso_google_client_id',
+      DAILY_STATS: 'multiverso_daily_stats'
+    };
+
+    const appState = {
+      geminiApiKey: localStorage.getItem(STORAGE_KEYS.GEMINI_KEY) || '',
+      googleClientId: localStorage.getItem(STORAGE_KEYS.CLIENT_ID) || '',
+      ytAccessToken: null,
+      tokenClient: null,
+      scriptData: null,
+      sceneImages: [null, null, null, null], // { img, dataUrl, prompt }
+      videoBlob: null,
+      videoMimeType: 'video/webm',
+      isBuilding: false
+    };
+
+    // =========================================================================
+    // UTILITÁRIOS DE UI & CONTADOR DIÁRIO
+    // =========================================================================
+    const $ = (id) => document.getElementById(id);
+
+    function getTodayKey() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function getDailyCount() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(STORAGE_KEYS.DAILY_STATS) || '{}');
+        if (raw.date === getTodayKey()) return raw.count || 0;
+      } catch {}
+      return 0;
+    }
+
+    function incrementDailyCount() {
+      const next = getDailyCount() + 1;
+      localStorage.setItem(STORAGE_KEYS.DAILY_STATS, JSON.stringify({ date: getTodayKey(), count: next }));
+      updateHeaderBadges();
+    }
+
+    function updateHeaderBadges() {
+      const count = getDailyCount();
+      $('dailyQuotaBadge').textContent = `Shorts hoje: ${count} / 3`;
+
+      if (appState.geminiApiKey.trim()) {
+        $('geminiDot').className = 'dot online';
+        $('geminiStatusText').textContent = 'Gemini: Chave Salva';
+      } else {
+        $('geminiDot').className = 'dot warn';
+        $('geminiStatusText').textContent = 'Gemini: Sem Chave';
+      }
+
+      if (appState.ytAccessToken) {
+        $('ytDot').className = 'dot online';
+        $('ytStatusText').textContent = 'Canal Conectado';
+      } else {
+        $('ytDot').className = 'dot';
+        $('ytStatusText').textContent = 'YouTube: Desconectado';
+      }
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tabId);
+      });
+      document.querySelectorAll('.panel').forEach(panel => {
+        panel.classList.toggle('active', panel.id === tabId);
+      });
+
+      if (tabId === 'tab4') {
+        autoPopulatePublishFromScript(false);
+      }
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
+
+    function appendLog(msg) {
+      const box = $('studioLogs');
+      const time = new Date().toLocaleTimeString('pt-BR');
+      box.textContent += `\n[${time}] ${msg}`;
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function setStudioProgress(pct) {
+      $('studioProgressBar').style.width = `${Math.min(100, Math.max(0, pct))}%`;
+    }
+
+    // =========================================================================
+    // ETAPA 1: CONEXÃO E CHAVES (OAuth 2.0 + localStorage)
+    // =========================================================================
+    $('currentOriginHint').textContent = window.location.origin;
+    $('geminiApiKey').value = appState.geminiApiKey;
+    $('googleClientId').value = appState.googleClientId;
+    updateHeaderBadges();
+
+    $('saveKeysBtn').addEventListener('click', () => {
+      appState.geminiApiKey = $('geminiApiKey').value.trim();
+      appState.googleClientId = $('googleClientId').value.trim();
+
+      localStorage.setItem(STORAGE_KEYS.GEMINI_KEY, appState.geminiApiKey);
+      localStorage.setItem(STORAGE_KEYS.CLIENT_ID, appState.googleClientId);
+
+      updateHeaderBadges();
+      const alertBox = $('authStatusAlert');
+      alertBox.className = 'alert success';
+      alertBox.innerHTML = '✅ Chaves salvas com sucesso no <code>localStorage</code> do navegador!';
+    });
+
+    $('connectYtBtn').addEventListener('click', () => {
+      const clientId = $('googleClientId').value.trim();
+      if (!clientId) {
+        $('authStatusAlert').className = 'alert error';
+        $('authStatusAlert').textContent = '⚠️ Informe seu Google OAuth Client ID antes de conectar.';
+        return;
+      }
+
+      localStorage.setItem(STORAGE_KEYS.CLIENT_ID, clientId);
+      appState.googleClientId = clientId;
+
+      if (!window.google || !google.accounts || !google.accounts.oauth2) {
+        $('authStatusAlert').className = 'alert error';
+        $('authStatusAlert').textContent = '⚠️ Biblioteca Google Identity Services ainda está carregando ou bloqueada. Verifique sua conexão e recarregue.';
+        return;
+      }
+
+      try {
+        appState.tokenClient = google.accounts.oauth2.initTokenClient({
+          client_id: clientId,
+          scope: 'https://www.googleapis.com/auth/youtube.upload',
+          callback: (tokenResponse) => {
+            if (tokenResponse && tokenResponse.access_token) {
+              appState.ytAccessToken = tokenResponse.access_token;
+              updateHeaderBadges();
+              $('authStatusAlert').className = 'alert success';
+              $('authStatusAlert').innerHTML = '✅ <strong>Canal Conectado!</strong> Token OAuth 2.0 ativo com permissão de upload para o YouTube.';
+            } else {
+              $('authStatusAlert').className = 'alert error';
+              $('authStatusAlert').textContent = '❌ Não foi possível obter o token de acesso do YouTube.';
+            }
+          },
+          error_callback: (err) => {
+            $('authStatusAlert').className = 'alert error';
+            $('authStatusAlert').textContent = `❌ Erro OAuth: ${err.message || err.type || 'Falha na autenticação'}`;
+          }
+        });
+
+        appState.tokenClient.requestAccessToken({ prompt: 'consent' });
+      } catch (err) {
+        $('authStatusAlert').className = 'alert error';
+        $('authStatusAlert').textContent = `❌ Erro ao iniciar OAuth: ${err.message}`;
+      }
+    });
+
+    // =========================================================================
+    // CHAMADA REUTILIZÁVEL AO MODELO GRATUITO gemini-2.5-flash
+    // =========================================================================
+    async function callGeminiFlashJSON(prompt) {
+      const apiKey = $('geminiApiKey').value.trim() || appState.geminiApiKey;
+      if (!apiKey) {
+        throw new Error('Cole sua Gemini API Key na Etapa 1 primeiro.');
+      }
+
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${encodeURIComponent(apiKey)}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: {
+              responseMimeType: 'application/json',
+              temperature: 0.88
+            }
+          })
+        }
+      );
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error?.message || `HTTP ${res.status}`);
+      }
+
+      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      const cleaned = rawText.replace(/```json\s*/gi, '').replace(/```/g, '').trim();
+      return JSON.parse(cleaned);
+    }
+
+    // =========================================================================
+    // ETAPA 2: GERADOR DE ROTEIRO E CENAS (gemini-2.5-flash)
+    // =========================================================================
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        $('topicInput').value = chip.dataset.topic;
+      });
+    });
+
+    $('generateScriptBtn').addEventListener('click', async () => {
+      const topic = $('topicInput').value.trim();
+      const statusEl = $('scriptStatusAlert');
+
+      if (!topic) {
+        statusEl.style.display = 'block';
+        statusEl.className = 'alert error';
+        statusEl.textContent = '⚠️ Digite um tema para o Short.';
+        return;
+      }
+
+      $('generateScriptBtn').disabled = true;
+      $('generateScriptBtn').textContent = '⏳ Gerando roteiro com gemini-2.5-flash...';
+      statusEl.style.display = 'block';
+      statusEl.className = 'alert info';
+      statusEl.textContent = 'Consultando o modelo gratuito gemini-2.5-flash...';
+
+      const prompt = `Você é um roteirista viral especialista em YouTube Shorts de curiosidades e mistérios em Português do Brasil.
+Tema do vídeo: "${topic}"
+
+Crie um pacote completo para um Short de 35 a 45 segundos dividido em EXATAMENTE 4 cenas curtas.
+Retorne EXCLUSIVAMENTE um JSON válido seguindo exatamente esta estrutura:
+{
+  "titulo": "Título extremamente chamativo com no máximo 60 caracteres",
+  "descricao": "Descrição envolvente de 2 linhas com hashtags obrigatórias incluindo #shorts #historia #misterios e outras relevantes",
+  "tags": "tag1, tag2, tag3, tag4, tag5, shorts, misterios",
+  "cenas": [
+    {
+      "numero": 1,
+      "narracao": "Texto falado em português do Brasil (gancho inicial impactante, ~20 a 28 palavras)",
+      "prompt_visual": "Detailed vertical 9:16 cinematic illustration prompt in English describing the visual scene, moody lighting, dramatic atmosphere, no text"
+    },
+    {
+      "numero": 2,
+      "narracao": "Desenvolvimento do mistério/fato (~22 a 28 palavras)",
+      "prompt_visual": "Detailed vertical 9:16 cinematic illustration prompt in English, atmospheric, no text"
+    },
+    {
+      "numero": 3,
+      "narracao": "Reviravolta ou detalhe surpreendente (~22 a 28 palavras)",
+      "prompt_visual": "Detailed vertical 9:16 cinematic illustration prompt in English, dramatic lighting, no text"
+    },
+    {
+      "numero": 4,
+      "narracao": "Conclusão impactante com pergunta para comentários (~18 a 24 palavras)",
+      "prompt_visual": "Detailed vertical 9:16 epic cinematic scene prompt in English, mysterious glow, no text"
+    }
+  ]
+}`;
+
+      try {
+        const parsed = await callGeminiFlashJSON(prompt);
+
+        if (!parsed.cenas || parsed.cenas.length !== 4) {
+          throw new Error('O modelo não retornou 4 cenas válidas.');
+        }
+
+        appState.scriptData = parsed;
+        appState.sceneImages = [null, null, null, null];
+        renderScriptResult(parsed);
+        autoPopulatePublishFromScript(true);
+
+        statusEl.className = 'alert success';
+        statusEl.textContent = '✅ Roteiro e 4 cenas gerados com sucesso! Você já pode ajustar se quiser e ir para o Estúdio de Vídeo.';
+        $('goToStudioBtn').style.display = 'inline-flex';
+        $('regenTab2MetaBtn').style.display = 'inline-flex';
+      } catch (err) {
+        statusEl.className = 'alert error';
+        statusEl.textContent = `❌ Erro ao gerar roteiro: ${err.message}`;
+      } finally {
+        $('generateScriptBtn').disabled = false;
+        $('generateScriptBtn').textContent = '✨ Gerar Roteiro (Gratuito)';
+      }
+    });
+
+    function renderScriptResult(data) {
+      $('scriptResultArea').style.display = 'block';
+      $('genTitle').value = (data.titulo || '').slice(0, 60);
+      $('genTags').value = data.tags || '';
+      $('genDescription').value = data.descricao || '';
+
+      const container = $('scenesContainer');
+      container.innerHTML = '';
+
+      data.cenas.forEach((cena, idx) => {
+        const card = document.createElement('div');
+        card.className = 'scene-card';
+        card.innerHTML = `
+          <h4>
+            <span>Cena ${idx + 1} (~9-11s)</span>
+            <button type="button" class="btn btn-outline btn-sm" data-regen-scene="${idx}">🔄 Regerar Cena ${idx + 1}</button>
+          </h4>
+          <div class="field">
+            <label>Narração (PT-BR)</label>
+            <textarea rows="3" data-scene-narr="${idx}">${cena.narracao || ''}</textarea>
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label>Prompt Visual</label>
+            <textarea rows="2" data-scene-prompt="${idx}">${cena.prompt_visual || ''}</textarea>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      // Eventos de regerar cena individual
+      container.querySelectorAll('[data-regen-scene]').forEach(btn => {
+        btn.addEventListener('click', () => regenerateSingleScene(parseInt(btn.dataset.regenScene, 10), btn));
+      });
+    }
+
+    async function regenerateSingleScene(idx, btn) {
+      syncEditedScriptFromUI();
+      const topic = $('topicInput').value.trim() || appState.scriptData?.titulo || 'Mistérios';
+      const otherScenes = (appState.scriptData?.cenas || [])
+        .map((c, i) => `Cena ${i + 1}: ${c.narracao}`)
+        .join('\n');
+
+      btn.disabled = true;
+      btn.textContent = '⏳...';
+
+      try {
+        const parsed = await callGeminiFlashJSON(`Você é roteirista de YouTube Shorts em PT-BR.
+Tema: "${topic}"
+Roteiro atual:
+${otherScenes}
+
+Crie uma NOVA versão melhorada e mais envolvente APENAS para a Cena ${idx + 1} mantendo coerência com as demais.
+Retorne JSON válido:
+{
+  "narracao": "Novo texto falado em PT-BR (~20 a 28 palavras)",
+  "prompt_visual": "Detailed vertical 9:16 cinematic illustration prompt in English, dramatic lighting, no text"
+}`);
+
+        const narrEl = document.querySelector(`[data-scene-narr="${idx}"]`);
+        const promptEl = document.querySelector(`[data-scene-prompt="${idx}"]`);
+        if (narrEl && parsed.narracao) narrEl.value = parsed.narracao;
+        if (promptEl && parsed.prompt_visual) promptEl.value = parsed.prompt_visual;
+
+        appState.sceneImages[idx] = null;
+        syncEditedScriptFromUI();
+      } catch (err) {
+        $('scriptStatusAlert').style.display = 'block';
+        $('scriptStatusAlert').className = 'alert error';
+        $('scriptStatusAlert').textContent = `❌ Erro ao regerar Cena ${idx + 1}: ${err.message}`;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = `🔄 Regerar Cena ${idx + 1}`;
+      }
+    }
+
+    function syncEditedScriptFromUI() {
+      if (!appState.scriptData) return null;
+      appState.scriptData.titulo = $('genTitle').value.trim();
+      appState.scriptData.tags = $('genTags').value.trim();
+      appState.scriptData.descricao = $('genDescription').value.trim();
+
+      appState.scriptData.cenas.forEach((cena, idx) => {
+        const narrEl = document.querySelector(`[data-scene-narr="${idx}"]`);
+        const promptEl = document.querySelector(`[data-scene-prompt="${idx}"]`);
+        if (narrEl) cena.narracao = narrEl.value.trim();
+        if (promptEl) cena.prompt_visual = promptEl.value.trim();
+      });
+
+      return appState.scriptData;
+    }
+
+    $('regenTab2MetaBtn').addEventListener('click', () => {
+      generatePublishMetadata('all', true);
+    });
+
+    $('goToStudioBtn').addEventListener('click', () => {
+      syncEditedScriptFromUI();
+      switchTab('tab3');
+    });
+
+    $('goToPublishBtn').addEventListener('click', () => {
+      syncEditedScriptFromUI();
+      autoPopulatePublishFromScript(false);
+      switchTab('tab4');
+    });
+
+    // =========================================================================
+    // ETAPA 3: ESTÚDIO DE VÍDEO (IMAGENS + TTS + CANVAS 1080x1920 + MEDIARECORDER)
+    // =========================================================================
+    async function generateSceneImage(promptText, sceneIndex, topicText) {
+      const apiKey = $('geminiApiKey').value.trim() || appState.geminiApiKey;
+      const imageModels = ['gemini-2.5-flash-image', 'gemini-2.0-flash-exp-image-generation'];
+
+      for (const model of imageModels) {
+        try {
+          const res = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`,
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contents: [{
+                  parts: [{ text: `Vertical 9:16 portrait aspect ratio, ultra detailed cinematic artwork, no text, no watermarks: ${promptText}` }]
+                }],
+                generationConfig: {
+                  responseModalities: ['IMAGE', 'TEXT']
+                }
+              })
+            }
+          );
+
+          if (res.ok) {
+            const json = await res.json();
+            const parts = json.candidates?.[0]?.content?.parts || [];
+            const imgPart = parts.find(p => p.inlineData && p.inlineData.data);
+            if (imgPart) {
+              const dataUrl = `data:${imgPart.inlineData.mimeType || 'image/png'};base64,${imgPart.inlineData.data}`;
+              const img = await loadImageFromSrc(dataUrl);
+              appendLog(`🖼️ Cena ${sceneIndex + 1}: imagem gerada via API (${model}).`);
+              return { img, dataUrl, prompt: promptText };
+            }
+          }
+        } catch {}
+      }
+
+      appendLog(`🎨 Cena ${sceneIndex + 1}: API de imagem indisponível no plano gratuito; gerando fundo cinematográfico em Canvas...`);
+      const fallbackUrl = createCinematicFallbackImage(sceneIndex, promptText, topicText);
+      const img = await loadImageFromSrc(fallbackUrl);
+      return { img, dataUrl: fallbackUrl, prompt: promptText };
+    }
+
+    function loadImageFromSrc(src) {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      });
+    }
+
+    function createCinematicFallbackImage(sceneIndex, promptText, topicText) {
+      const c = document.createElement('canvas');
+      c.width = 1080;
+      c.height = 1920;
+      const ctx = c.getContext('2d');
+
+      const palettes = [
+        ['#0f0c29', '#302b63', '#f59e0b'],
+        ['#091e3a', '#1d4350', '#06b6d4'],
+        ['#200122', '#6f0000', '#fb7185'],
+        ['#051937', '#004d7a', '#34d399']
+      ];
+      const [c1, c2, glow] = palettes[sceneIndex % palettes.length];
+
+      const grad = ctx.createLinearGradient(0, 0, 1080, 1920);
+      grad.addColorStop(0, c1);
+      grad.addColorStop(0.55, c2);
+      grad.addColorStop(1, '#04060c');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 1080, 1920);
+
+      const rad = ctx.createRadialGradient(540, 760, 40, 540, 760, 680);
+      rad.addColorStop(0, glow + '66');
+      rad.addColorStop(0.5, glow + '18');
+      rad.addColorStop(1, 'transparent');
+      ctx.fillStyle = rad;
+      ctx.fillRect(0, 0, 1080, 1920);
+
+      const seedShift = Math.random() * 50;
+      for (let i = 0; i < 140; i++) {
+        const x = (Math.sin(i * 91.7 + sceneIndex * 13 + seedShift) * 0.5 + 0.5) * 1080;
+        const y = (Math.cos(i * 47.3 + sceneIndex * 7 + seedShift) * 0.5 + 0.5) * 1920;
+        const r = (i % 4) + 1;
+        ctx.fillStyle = `rgba(255,255,255,${0.15 + (i % 5) * 0.14})`;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.save();
+      ctx.translate(540, 720);
+      ctx.strokeStyle = glow + '88';
+      ctx.lineWidth = 4;
+      for (let ring = 1; ring <= 3; ring++) {
+        ctx.beginPath();
+        ctx.arc(0, 0, ring * 135, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = 'rgba(10, 14, 26, 0.72)';
+      ctx.strokeStyle = glow;
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      if (sceneIndex % 2 === 0) {
+        ctx.moveTo(0, -230);
+        ctx.lineTo(250, 190);
+        ctx.lineTo(-250, 190);
+        ctx.closePath();
+      } else {
+        ctx.arc(0, 0, 190, 0, Math.PI * 2);
+      }
+      ctx.fill();
+      ctx.stroke();
+
+      const icons = ['👁️', '⏳', '🧭', '✨'];
+      ctx.font = '140px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(icons[sceneIndex % icons.length], 0, 10);
+      ctx.restore();
+
+      const vig = ctx.createRadialGradient(540, 960, 380, 540, 960, 1150);
+      vig.addColorStop(0, 'transparent');
+      vig.addColorStop(1, 'rgba(0,0,0,0.78)');
+      ctx.fillStyle = vig;
+      ctx.fillRect(0, 0, 1080, 1920);
+
+      ctx.fillStyle = 'rgba(255,255,255,0.22)';
+      ctx.font = 'bold 28px Inter, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText((topicText || 'MULTIVERSO').toUpperCase().slice(0, 34), 540, 150);
+
+      return c.toDataURL('image/jpeg', 0.9);
+    }
+
+    // Regerar imagem individual de uma cena na Aba 3
+    document.querySelectorAll('.regen-img-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const idx = parseInt(btn.dataset.sceneIdx, 10);
+        const script = syncEditedScriptFromUI();
+        if (!script || !script.cenas[idx]) return;
+
+        btn.disabled = true;
+        btn.textContent = '⏳';
+        try {
+          const imgRes = await generateSceneImage(script.cenas[idx].prompt_visual, idx, script.titulo);
+          appState.sceneImages[idx] = imgRes;
+          $(`thumbBox${idx}`).innerHTML = `<img src="${imgRes.dataUrl}" alt="Cena ${idx + 1}" />`;
+          appendLog(`🔄 Nova imagem da Cena ${idx + 1} pronta! Clique em "Montar Vídeo" para atualizar o vídeo.`);
+        } finally {
+          btn.disabled = false;
+          btn.textContent = '🔄 Nova Img';
+        }
+      });
+    });
+
+    async function generateSceneAudio(text, sceneIndex, audioCtx) {
+      const apiKey = $('geminiApiKey').value.trim() || appState.geminiApiKey;
+      try {
+        const res = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${encodeURIComponent(apiKey)}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{
+                parts: [{
+                  text: `Narre em português do Brasil com tom envolvente, claro e ritmo dinâmico de YouTube Shorts: ${text}`
+                }]
+              }],
+              generationConfig: {
+                responseModalities: ['AUDIO'],
+                speechConfig: {
+                  voiceConfig: {
+                    prebuiltVoiceConfig: { voiceName: 'Charon' }
+                  }
+                }
+              }
+            })
+          }
+        );
+
+        if (res.ok) {
+          const json = await res.json();
+          const parts = json.candidates?.[0]?.content?.parts || [];
+          const audioPart = parts.find(p => p.inlineData && p.inlineData.data);
+          if (audioPart) {
+            const mime = audioPart.inlineData.mimeType || 'audio/L16;rate=24000';
+            const bytes = base64ToUint8Array(audioPart.inlineData.data);
+            let audioBuffer;
+
+            if (mime.includes('L16') || mime.includes('pcm')) {
+              const rateMatch = mime.match(/rate=(\d+)/);
+              const sampleRate = rateMatch ? parseInt(rateMatch[1], 10) : 24000;
+              audioBuffer = pcm16ToAudioBuffer(bytes, sampleRate, audioCtx);
+            } else {
+              audioBuffer = await audioCtx.decodeAudioData(bytes.buffer.slice(0));
+            }
+
+            appendLog(`🎙️ Cena ${sceneIndex + 1}: áudio TTS gerado (${audioBuffer.duration.toFixed(1)}s).`);
+            return { audioBuffer, duration: audioBuffer.duration, mode: 'gemini-tts' };
+          }
+        }
+      } catch {}
+
+      const words = text.split(/\s+/).filter(Boolean).length;
+      const estimatedDuration = Math.max(7.5, Math.min(12.5, words * 0.42 + 1.2));
+      appendLog(`🗣️ Cena ${sceneIndex + 1}: Gemini TTS indisponível; usando fallback Web Speech PT-BR (${estimatedDuration.toFixed(1)}s).`);
+      return { audioBuffer: null, duration: estimatedDuration, mode: 'webspeech-fallback' };
+    }
+
+    function base64ToUint8Array(base64) {
+      const bin = atob(base64);
+      const len = bin.length;
+      const bytes = new Uint8Array(len);
+      for (let i = 0; i < len; i++) bytes[i] = bin.charCodeAt(i);
+      return bytes;
+    }
+
+    function pcm16ToAudioBuffer(uint8Bytes, sampleRate, audioCtx) {
+      const sampleCount = Math.floor(uint8Bytes.byteLength / 2);
+      const buffer = audioCtx.createBuffer(1, sampleCount, sampleRate);
+      const channel = buffer.getChannelData(0);
+      const view = new DataView(uint8Bytes.buffer, uint8Bytes.byteOffset, uint8Bytes.byteLength);
+      for (let i = 0; i < sampleCount; i++) {
+        channel[i] = view.getInt16(i * 2, true) / 32768;
+      }
+      return buffer;
+    }
+
+    function speakWithWebSpeechPTBR(text) {
+      if (!('speechSynthesis' in window)) return;
+      try {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'pt-BR';
+        utter.rate = 1.05;
+        const voices = window.speechSynthesis.getVoices();
+        const ptVoice = voices.find(v => v.lang.toLowerCase().includes('pt-br')) || voices.find(v => v.lang.toLowerCase().startsWith('pt'));
+        if (ptVoice) utter.voice = ptVoice;
+        window.speechSynthesis.speak(utter);
+      } catch {}
+    }
+
+    function buildSubtitleChunks(text, sceneStart, sceneDuration) {
+      const words = text.trim().split(/\s+/).filter(Boolean);
+      const chunks = [];
+      for (let i = 0; i < words.length; i += 3) {
+        chunks.push(words.slice(i, i + 3).join(' '));
+      }
+      if (!chunks.length) return [];
+
+      const totalChars = chunks.reduce((acc, c) => acc + c.length, 0) || 1;
+      let cursor = sceneStart;
+      return chunks.map(chunkText => {
+        const dur = (chunkText.length / totalChars) * sceneDuration;
+        const item = { text: chunkText, start: cursor, end: cursor + dur };
+        cursor += dur;
+        return item;
+      });
+    }
+
+    function drawVideoFrame(ctx, scene, sceneProgress, elapsed, totalDuration, activeSubtitle) {
+      const W = 1080;
+      const H = 1920;
+
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = '#000';
+      ctx.fillRect(0, 0, W, H);
+
+      const img = scene.img;
+      const imgRatio = img.width / img.height;
+      const canvasRatio = W / H;
+      let baseW, baseH;
+      if (imgRatio > canvasRatio) {
+        baseH = H;
+        baseW = H * imgRatio;
+      } else {
+        baseW = W;
+        baseH = W / imgRatio;
+      }
+
+      const zoomIn = scene.index % 2 === 0;
+      const scale = zoomIn ? (1.0 + 0.14 * sceneProgress) : (1.14 - 0.12 * sceneProgress);
+      const panX = (scene.index % 2 === 0 ? 1 : -1) * 26 * (sceneProgress - 0.5);
+      const panY = -18 * (sceneProgress - 0.5);
+
+      const drawW = baseW * scale;
+      const drawH = baseH * scale;
+      const dx = (W - drawW) / 2 + panX;
+      const dy = (H - drawH) / 2 + panY;
+
+      ctx.drawImage(img, dx, dy, drawW, drawH);
+
+      const overlay = ctx.createLinearGradient(0, 500, 0, 1450);
+      overlay.addColorStop(0, 'rgba(0,0,0,0.08)');
+      overlay.addColorStop(0.5, 'rgba(0,0,0,0.52)');
+      overlay.addColorStop(1, 'rgba(0,0,0,0.18)');
+      ctx.fillStyle = overlay;
+      ctx.fillRect(0, 0, W, H);
+
+      if (sceneProgress < 0.06) {
+        ctx.fillStyle = `rgba(0,0,0,${1 - sceneProgress / 0.06})`;
+        ctx.fillRect(0, 0, W, H);
+      }
+
+      ctx.fillStyle = 'rgba(255,255,255,0.22)';
+      ctx.fillRect(40, 48, W - 80, 8);
+      ctx.fillStyle = '#06b6d4';
+      ctx.fillRect(40, 48, (W - 80) * Math.min(1, elapsed / totalDuration), 8);
+
+      if (activeSubtitle) {
+        const displayStr = activeSubtitle.toUpperCase();
+        ctx.font = '900 72px Inter, system-ui, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        const maxLineWidth = 920;
+        const words = displayStr.split(' ');
+        const lines = [];
+        let current = '';
+        for (const w of words) {
+          const test = current ? `${current} ${w}` : w;
+          if (ctx.measureText(test).width > maxLineWidth && current) {
+            lines.push(current);
+            current = w;
+          } else {
+            current = test;
+          }
+        }
+        if (current) lines.push(current);
+
+        const lineHeight = 88;
+        const centerY = 980 - ((lines.length - 1) * lineHeight) / 2;
+
+        lines.forEach((line, i) => {
+          const y = centerY + i * lineHeight;
+          const textW = ctx.measureText(line).width;
+
+          ctx.fillStyle = 'rgba(10, 12, 22, 0.72)';
+          roundRect(ctx, 540 - textW / 2 - 26, y - 46, textW + 52, 90, 20);
+          ctx.fill();
+
+          ctx.lineWidth = 14;
+          ctx.strokeStyle = '#000000';
+          ctx.strokeText(line, 540, y);
+
+          ctx.fillStyle = i === lines.length - 1 ? '#fde047' : '#ffffff';
+          ctx.fillText(line, 540, y);
+        });
+      }
+    }
+
+    function roundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    }
+
+    $('buildVideoBtn').addEventListener('click', async () => {
+      if (appState.isBuilding) return;
+      const script = syncEditedScriptFromUI();
+
+      if (!script || !script.cenas || script.cenas.length !== 4) {
+        appendLog('⚠️ Gere primeiro o roteiro com 4 cenas na Etapa 2!');
+        return;
+      }
+
+      appState.isBuilding = true;
+      $('buildVideoBtn').disabled = true;
+      $('downloadVideoBtn').style.display = 'none';
+      $('goToPublishBtn').style.display = 'none';
+      $('videoPlayer').style.display = 'none';
+      $('renderCanvas').style.display = 'block';
+      $('studioLogs').textContent = '';
+      setStudioProgress(5);
+
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') await audioCtx.resume();
+
+      try {
+        appendLog('🚀 Iniciando montagem do Short 9:16 (1080×1920)...');
+        const scenesData = [];
+
+        for (let i = 0; i < 4; i++) {
+          const cena = script.cenas[i];
+          setStudioProgress(10 + i * 12);
+
+          const cached = appState.sceneImages[i];
+          const imgPromise = (cached && cached.prompt === cena.prompt_visual)
+            ? Promise.resolve(cached)
+            : generateSceneImage(cena.prompt_visual, i, script.titulo);
+
+          const [imgRes, audioRes] = await Promise.all([
+            imgPromise,
+            generateSceneAudio(cena.narracao, i, audioCtx)
+          ]);
+
+          appState.sceneImages[i] = imgRes;
+          $(`thumbBox${i}`).innerHTML = `<img src="${imgRes.dataUrl}" alt="Cena ${i + 1}" />`;
+          document.querySelector(`.regen-img-btn[data-scene-idx="${i}"]`).style.display = 'inline-flex';
+
+          scenesData.push({
+            index: i,
+            narracao: cena.narracao,
+            img: imgRes.img,
+            audioBuffer: audioRes.audioBuffer,
+            duration: audioRes.duration,
+            mode: audioRes.mode
+          });
+        }
+
+        let cursor = 0;
+        scenesData.forEach(s => {
+          s.start = cursor;
+          s.end = cursor + s.duration;
+          s.subtitles = buildSubtitleChunks(s.narracao, s.start, s.duration);
+          cursor = s.end;
+        });
+        const totalDuration = cursor;
+        appendLog(`⏱️ Duração total calculada: ${totalDuration.toFixed(1)} segundos.`);
+
+        const dest = audioCtx.createMediaStreamDestination();
+
+        const ambientGain = audioCtx.createGain();
+        ambientGain.gain.value = 0.04;
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.value = 260;
+        osc1.type = 'sine';
+        osc1.frequency.value = 110;
+        osc2.type = 'triangle';
+        osc2.frequency.value = 164.81;
+        osc1.connect(filter);
+        osc2.connect(filter);
+        filter.connect(ambientGain);
+        ambientGain.connect(dest);
+
+        const canvas = $('renderCanvas');
+        const ctx = canvas.getContext('2d');
+        const canvasStream = canvas.captureStream(30);
+        const combinedStream = new MediaStream([
+          ...canvasStream.getVideoTracks(),
+          ...dest.stream.getAudioTracks()
+        ]);
+
+        const preferredTypes = [
+          'video/mp4;codecs=avc1,mp4a.40.2',
+          'video/webm;codecs=vp9,opus',
+          'video/webm;codecs=vp8,opus',
+          'video/webm'
+        ];
+        const mimeType = preferredTypes.find(t => MediaRecorder.isTypeSupported(t)) || 'video/webm';
+        appState.videoMimeType = mimeType.split(';')[0];
+
+        const chunks = [];
+        const recorder = new MediaRecorder(combinedStream, {
+          mimeType,
+          videoBitsPerSecond: 4500000
+        });
+
+        recorder.ondataavailable = (e) => {
+          if (e.data && e.data.size > 0) chunks.push(e.data);
+        };
+
+        const recordingFinished = new Promise((resolve) => {
+          recorder.onstop = () => {
+            const blob = new Blob(chunks, { type: appState.videoMimeType });
+            resolve(blob);
+          };
+        });
+
+        appendLog(`🎥 Gravando vídeo no navegador (${mimeType})... Mantenha esta aba aberta.`);
+        recorder.start(250);
+        osc1.start();
+        osc2.start();
+
+        const startAudioTime = audioCtx.currentTime + 0.1;
+
+        scenesData.forEach(s => {
+          if (s.audioBuffer) {
+            const src = audioCtx.createBufferSource();
+            src.buffer = s.audioBuffer;
+            src.connect(dest);
+            const monitorGain = audioCtx.createGain();
+            monitorGain.gain.value = 0.25;
+            src.connect(monitorGain);
+            monitorGain.connect(audioCtx.destination);
+            src.start(startAudioTime + s.start);
+          }
+        });
+
+        let lastSpokenScene = -1;
+
+        await new Promise((resolveLoop) => {
+          const timer = setInterval(() => {
+            const elapsed = Math.max(0, audioCtx.currentTime - startAudioTime);
+            if (elapsed >= totalDuration) {
+              clearInterval(timer);
+              resolveLoop();
+              return;
+            }
+
+            const activeScene = scenesData.find(s => elapsed >= s.start && elapsed < s.end) || scenesData[scenesData.length - 1];
+            const sceneProgress = Math.min(1, Math.max(0, (elapsed - activeScene.start) / activeScene.duration));
+
+            if (activeScene.index !== lastSpokenScene) {
+              lastSpokenScene = activeScene.index;
+              if (!activeScene.audioBuffer) {
+                speakWithWebSpeechPTBR(activeScene.narracao);
+              }
+            }
+
+            const sub = activeScene.subtitles.find(item => elapsed >= item.start && elapsed < item.end);
+            drawVideoFrame(ctx, activeScene, sceneProgress, elapsed, totalDuration, sub ? sub.text : '');
+            setStudioProgress(60 + (elapsed / totalDuration) * 38);
+          }, 1000 / 30);
+        });
+
+        osc1.stop();
+        osc2.stop();
+        recorder.stop();
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+
+        const videoBlob = await recordingFinished;
+        appState.videoBlob = videoBlob;
+
+        const videoUrl = URL.createObjectURL(videoBlob);
+        $('renderCanvas').style.display = 'none';
+        const player = $('videoPlayer');
+        player.src = videoUrl;
+        player.style.display = 'block';
+
+        const dlBtn = $('downloadVideoBtn');
+        dlBtn.href = videoUrl;
+        dlBtn.download = `autoshort-${Date.now()}.${appState.videoMimeType.includes('mp4') ? 'mp4' : 'webm'}`;
+        dlBtn.style.display = 'inline-flex';
+        $('goToPublishBtn').style.display = 'inline-flex';
+
+        setStudioProgress(100);
+        $('previewCaption').textContent = `Vídeo pronto! (${(videoBlob.size / (1024 * 1024)).toFixed(2)} MB)`;
+        appendLog('✅ Vídeo Vertical (9:16) montado com sucesso! Assista no player ao lado ou avance para publicar.');
+      } catch (err) {
+        appendLog(`❌ Erro na montagem do vídeo: ${err.message}`);
+      } finally {
+        appState.isBuilding = false;
+        $('buildVideoBtn').disabled = false;
+        audioCtx.close().catch(() => {});
+      }
+    });
+
+    // =========================================================================
+    // ETAPA 4: SINCRONIZAÇÃO + GERADOR INTELIGENTE DE METADADOS + UPLOAD YOUTUBE
+    // =========================================================================
+    function autoPopulatePublishFromScript(forceOverwrite = false) {
+      const script = syncEditedScriptFromUI();
+      const topic = $('topicInput').value.trim();
+
+      if (script) {
+        $('pubScriptContext').innerHTML = `📝 Roteiro detectado: <strong>${(topic || script.titulo || 'Sem tema').slice(0, 55)}</strong> (4 cenas prontas)`;
+        if (forceOverwrite || !$('pubTitle').value.trim()) $('pubTitle').value = script.titulo || '';
+        if (forceOverwrite || !$('pubDescription').value.trim()) $('pubDescription').value = script.descricao || '';
+        if (forceOverwrite || !$('pubTags').value.trim()) $('pubTags').value = script.tags || '';
+      } else if (topic) {
+        $('pubScriptContext').innerHTML = `📝 Tema digitado: <strong>${topic.slice(0, 55)}</strong> (clique em "Gerar pelo Roteiro" se quiser preencher via IA)`;
+      } else {
+        $('pubScriptContext').innerHTML = `📝 Roteiro atual: <strong>Nenhum roteiro gerado ainda</strong> (digite manualmente ou gere na Etapa 2).`;
+      }
+    }
+
+    $('pullFromScriptBtn').addEventListener('click', () => {
+      autoPopulatePublishFromScript(true);
+      const alertBox = $('publishStatusAlert');
+      alertBox.className = 'alert info';
+      alertBox.textContent = '📋 Título, Descrição e Tags atualizados com o conteúdo atual da Etapa 2.';
+    });
+
+    async function generatePublishMetadata(mode = 'all', alsoSyncTab2 = false) {
+      const script = syncEditedScriptFromUI();
+      const topic = $('topicInput').value.trim();
+      const currentTitle = $('pubTitle').value.trim() || $('genTitle').value.trim();
+
+      const cenasTexto = script?.cenas?.length
+        ? script.cenas.map((c, i) => `Cena ${i + 1}: ${c.narracao}`).join('\n')
+        : '';
+
+      if (!topic && !cenasTexto && !currentTitle) {
+        const targetAlert = alsoSyncTab2 ? $('scriptStatusAlert') : $('publishStatusAlert');
+        targetAlert.style.display = 'block';
+        targetAlert.className = 'alert error';
+        targetAlert.textContent = '⚠️ Gere um roteiro na Etapa 2 ou digite um tema/título antes de gerar os metadados com IA.';
+        return;
+      }
+
+      const alertBox = alsoSyncTab2 ? $('scriptStatusAlert') : $('publishStatusAlert');
+      alertBox.style.display = 'block';
+      alertBox.className = 'alert info';
+      alertBox.textContent = '✨ Gerando metadados otimizados com gemini-2.5-flash de acordo com o roteiro...';
+
+      const allBtns = [
+        $('genAllPubMetaBtn'),
+        $('regenTab2MetaBtn'),
+        ...document.querySelectorAll('[data-gen-pub]')
+      ].filter(Boolean);
+      allBtns.forEach(b => b.disabled = true);
+
+      const prompt = `Você é especialista em SEO viral de YouTube Shorts em Português do Brasil.
+Com base no tema e no roteiro completo abaixo, gere metadados altamente atrativos e fiéis ao vídeo.
+
+Tema: "${topic || currentTitle}"
+Roteiro das 4 cenas:
+${cenasTexto || '(Use o tema informado acima)'}
+
+${mode === 'title' ? 'Gere APENAS um novo título.' : ''}
+${mode === 'description' ? 'Gere APENAS uma nova descrição com hashtags.' : ''}
+${mode === 'tags' ? 'Gere APENAS novas tags.' : ''}
+
+Retorne EXCLUSIVAMENTE um JSON válido com estas chaves:
+{
+  "titulo": "Título chamativo e curioso de até 60 caracteres",
+  "descricao": "Descrição curta e envolvente de 2 a 3 linhas convidando para comentar, com hashtags incluindo #shorts #historia #misterios",
+  "tags": "8 a 12 tags relevantes separadas por vírgula, sem #"
+}`;
+
+      try {
+        const parsed = await callGeminiFlashJSON(prompt);
+
+        if ((mode === 'all' || mode === 'title') && parsed.titulo) {
+          const cleanTitle = parsed.titulo.slice(0, 100);
+          $('pubTitle').value = cleanTitle;
+          if (alsoSyncTab2 || $('genTitle')) $('genTitle').value = cleanTitle.slice(0, 60);
+        }
+        if ((mode === 'all' || mode === 'description') && parsed.descricao) {
+          $('pubDescription').value = parsed.descricao;
+          if (alsoSyncTab2 || $('genDescription')) $('genDescription').value = parsed.descricao;
+        }
+        if ((mode === 'all' || mode === 'tags') && parsed.tags) {
+          $('pubTags').value = parsed.tags;
+          if (alsoSyncTab2 || $('genTags')) $('genTags').value = parsed.tags;
+        }
+
+        syncEditedScriptFromUI();
+        alertBox.className = 'alert success';
+        alertBox.textContent = '✅ Metadados gerados com sucesso de acordo com o roteiro!';
+      } catch (err) {
+        alertBox.className = 'alert error';
+        alertBox.textContent = `❌ Erro ao gerar metadados: ${err.message}`;
+      } finally {
+        allBtns.forEach(b => b.disabled = false);
+      }
+    }
+
+    $('genAllPubMetaBtn').addEventListener('click', () => generatePublishMetadata('all', false));
+    document.querySelectorAll('[data-gen-pub]').forEach(btn => {
+      btn.addEventListener('click', () => generatePublishMetadata(btn.dataset.genPub, false));
+    });
+
+    $('publishYtBtn').addEventListener('click', async () => {
+      const alertBox = $('publishStatusAlert');
+
+      if (!appState.ytAccessToken) {
+        alertBox.className = 'alert error';
+        alertBox.textContent = '⚠️ Conecte seu canal do YouTube na Etapa 1 antes de publicar.';
+        return;
+      }
+
+      if (!appState.videoBlob) {
+        alertBox.className = 'alert error';
+        alertBox.textContent = '⚠️ Monte o vídeo na Etapa 3 antes de publicar.';
+        return;
+      }
+
+      const title = $('pubTitle').value.trim() || 'Curiosidade Incrível #shorts';
+      const description = $('pubDescription').value.trim() || '#shorts #historia #misterios';
+      const tags = $('pubTags').value.split(',').map(t => t.trim()).filter(Boolean);
+      const privacyStatus = $('pubPrivacy').value;
+
+      $('publishYtBtn').disabled = true;
+      $('publishYtBtn').textContent = '⏳ Enviando para o YouTube...';
+      $('uploadProgressWrap').style.display = 'block';
+      $('uploadProgressBar').style.width = '5%';
+
+      alertBox.className = 'alert info';
+      alertBox.textContent = 'Iniciando sessão de upload resumível na YouTube Data API v3...';
+
+      try {
+        const metadata = {
+          snippet: {
+            title: title.slice(0, 100),
+            description: description.includes('#shorts') ? description : `${description}\n\n#shorts`,
+            tags,
+            categoryId: '24'
+          },
+          status: {
+            privacyStatus,
+            selfDeclaredMadeForKids: false
+          }
+        };
+
+        const initRes = await fetch(
+          'https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status',
+          {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${appState.ytAccessToken}`,
+              'Content-Type': 'application/json; charset=UTF-8',
+              'X-Upload-Content-Length': appState.videoBlob.size.toString(),
+              'X-Upload-Content-Type': appState.videoMimeType
+            },
+            body: JSON.stringify(metadata)
+          }
+        );
+
+        if (!initRes.ok) {
+          const errJson = await initRes.json().catch(() => ({}));
+          throw new Error(errJson.error?.message || `Erro ao iniciar upload (HTTP ${initRes.status})`);
+        }
+
+        const uploadUrl = initRes.headers.get('Location');
+        if (!uploadUrl) {
+          throw new Error('Cabeçalho Location de upload resumível não retornado pelo YouTube.');
+        }
+
+        const uploadedVideo = await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open('PUT', uploadUrl, true);
+          xhr.setRequestHeader('Content-Type', appState.videoMimeType);
+
+          xhr.upload.onprogress = (e) => {
+            if (e.lengthComputable) {
+              const pct = Math.round((e.loaded / e.total) * 100);
+              $('uploadProgressBar').style.width = `${pct}%`;
+              alertBox.textContent = `Enviando vídeo para o YouTube: ${pct}%...`;
+            }
+          };
+
+          xhr.onload = () => {
+            if (xhr.status >= 200 && xhr.status < 300) {
+              try {
+                resolve(JSON.parse(xhr.responseText));
+              } catch {
+                resolve({});
+              }
+            } else {
+              reject(new Error(`Falha no envio do arquivo (HTTP ${xhr.status}): ${xhr.responseText}`));
+            }
+          };
+
+          xhr.onerror = () => reject(new Error('Erro de rede durante o upload do vídeo.'));
+          xhr.send(appState.videoBlob);
+        });
+
+        const videoId = uploadedVideo.id;
+        const shortUrl = videoId ? `https://youtube.com/shorts/${videoId}` : 'https://studio.youtube.com';
+
+        incrementDailyCount();
+        $('uploadProgressBar').style.width = '100%';
+        alertBox.className = 'alert success';
+        alertBox.innerHTML = `
+          🎉 <strong>Short publicado com sucesso!</strong><br/>
+          Link do vídeo: <a href="${shortUrl}" target="_blank" rel="noopener noreferrer" style="color:#67e8f9; font-weight:700;">${shortUrl}</a>
+        `;
+      } catch (err) {
+        alertBox.className = 'alert error';
+        alertBox.textContent = `❌ Erro ao publicar no YouTube: ${err.message}`;
+      } finally {
+        $('publishYtBtn').disabled = false;
+        $('publishYtBtn').textContent = '🚀 Publicar Agora no YouTube';
+      }
+    });
+  </script>
+</body>
+  </html>
